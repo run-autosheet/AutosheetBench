@@ -1,0 +1,1 @@
+Color-code the grades — green for A, yellow for B, orange for C, red for D and F

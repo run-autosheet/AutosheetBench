@@ -1,0 +1,1 @@
+Show rows where revenue is above 10,000.

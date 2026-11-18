@@ -1,0 +1,345 @@
+:root {
+  --blue-50: rgba(242, 242, 255, 1);
+  --blue-200: rgba(216, 215, 255, 1);
+  --blue-600: rgba(61, 59, 218, 1);
+  --red-350: rgba(235, 62, 62, 1);
+  --red-400: rgba(219, 44, 44, 1);
+  --gray-25: #f0f5fa;
+  --gray-50: #e0eaf3;
+  --gray-100: #d2dff0;
+  --gray-200: #acbdce;
+  --gray-300: #859bb2;
+  --gray-400: #5c738c;
+  --gray-500: #3f546a;
+  --gray-600: #1f3247;
+  --gray-700: #13263a;
+  --gray-800: #081726;
+  --gray-900: #01070d;
+  --acid-green-12: #e5fff6;
+  --acid-green-25: #bfffe8;
+  --acid-green-600: #01b575;
+  --acid-green-800: #018656;
+  --acid-green-900: #017149;
+  --media-frame-hero-radius: 16px;
+  --media-frame-standard-radius: 12px;
+  --media-frame-mobile-hero-radius: 12px;
+  --media-frame-mobile-standard-radius: 10px;
+  --cta-transition:
+    transform 160ms ease, background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, box-shadow 160ms ease;
+}
+:root[data-theme="light"] {
+  --color-page: var(--gray-25);
+  --color-nav-start: #ffffff;
+  --color-panel: #ffffff;
+  --color-panel-strong: var(--gray-50);
+  --color-surface: #ffffff;
+  --color-surface-soft: var(--gray-25);
+  --color-inline-code-background: var(--gray-50);
+  --color-card-on-white: var(--gray-25);
+  --color-media-placeholder: var(--gray-50);
+  --color-text-primary: var(--gray-600);
+  --color-text-secondary: var(--gray-500);
+  /* This role appears on both white and gray-25, where gray-400 misses 4.5:1. */
+  --color-text-muted: var(--gray-500);
+
+  /* Form fields and interactive control edges */
+  --color-field-background: #ffffff;
+  --color-field-background-readonly: var(--gray-25);
+  --color-field-background-disabled: var(--gray-50);
+  --shadow-field: var(--shadow-small);
+  --shadow-field-focus: 0 0 0 3px var(--color-focus-glow);
+  --color-field-text: var(--gray-600);
+  --color-field-value: var(--gray-500);
+  --color-field-placeholder: var(--gray-500);
+  --color-field-disabled-text: var(--gray-400);
+  --color-control-border: var(--gray-400);
+  --color-control-border-hover: var(--gray-500);
+  --color-control-border-focus: var(--acid-green-800);
+  --color-control-border-disabled: var(--gray-300);
+  --color-focus-outline: var(--acid-green-800);
+  --color-focus-glow: rgba(1, 134, 86, 0.18);
+  --color-selection-background: var(--acid-green-12);
+  --color-selection-border: var(--acid-green-800);
+  --color-selection-text: var(--acid-green-900);
+
+  --color-brand: var(--acid-green-900);
+  --color-brand-hover: var(--acid-green-900);
+  --color-brand-active: var(--acid-green-900);
+  --color-brand-decorative: var(--acid-green-600);
+  --color-brand-soft: var(--acid-green-12);
+  --color-brand-soft-strong: var(--acid-green-25);
+  --color-highlight-info: var(--blue-200);
+  --color-prompt: var(--gray-500);
+  --color-brand-glow: var(--acid-green-600);
+  --color-border: var(--gray-100);
+  --color-border-accent: var(--acid-green-800);
+  --color-divider: var(--gray-100);
+  --color-divider-strong: var(--gray-200);
+  --color-shadow: rgba(19, 38, 58, 0.08);
+  --color-shadow-strong: rgba(19, 38, 58, 0.13);
+  --color-shadow-faint: rgba(19, 38, 58, 0.045);
+  --color-shadow-faint-hover: rgba(19, 38, 58, 0.055);
+  --color-shadow-soft: rgba(19, 38, 58, 0.06);
+  --color-success: var(--acid-green-900);
+  --color-warning: #b17b22;
+  --color-error: #b84d4d;
+  --color-footer-legal: var(--gray-25);
+  --color-button-primary-background: var(--acid-green-800);
+  --color-button-primary-hover: var(--acid-green-900);
+  --color-button-primary-active: var(--acid-green-900);
+  --color-button-primary-text: #ffffff;
+  --color-button-secondary-text: var(--acid-green-900);
+  --color-button-secondary-background: #ffffff;
+  --color-button-secondary-hover: var(--acid-green-12);
+  --color-button-tertiary-text: var(--gray-500);
+  --color-button-tertiary-hover: var(--gray-100);
+  --color-button-tertiary-active: var(--gray-200);
+  /* Destructive actions read as red in both themes; theme-invariant. */
+  --color-button-destructive-text: #ffffff;
+  --color-button-destructive-background: var(--red-350);
+  --color-button-destructive-hover: var(--red-400);
+  --color-logo-knockout: var(--color-page);
+  --color-header-link: var(--gray-500);
+  --color-header-icon: var(--gray-600);
+  --color-header-overlay: var(--gray-700);
+  --color-mobile-nav-text: var(--gray-600);
+  --color-mobile-nav-divider: var(--gray-100);
+  --color-footer-link: var(--gray-500);
+  --color-social-icon: var(--gray-400);
+  --color-rating-background: #ffffff;
+  --color-rating-text: var(--gray-400);
+  --color-rating-star: #d99a24;
+  --color-rating-border: var(--gray-100);
+  --cta-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --cta-shadow: var(--cta-inset-highlight), 0 2px 4px rgba(19, 38, 58, 0.12);
+  --cta-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 4px 10px rgba(19, 38, 58, 0.16);
+  --cta-shadow-active:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 2px rgba(19, 38, 58, 0.14);
+  --cta-shadow-disabled: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --color-demo-chip: #ffffff;
+  --color-demo-chip-hover: var(--gray-50);
+  --color-demo-chip-text: var(--gray-500);
+  --color-demo-chip-active-text: var(--color-button-primary-text);
+  --color-demo-chip-focus: var(--gray-900);
+  --color-demo-placeholder: var(--gray-50);
+  --color-code-background: var(--gray-800);
+  /* Code blocks stay dark with white text in both themes; theme-invariant. */
+  --color-code-text: #ffffff;
+  --color-tooltip-background: rgba(8, 23, 38, 0.96);
+  --color-tooltip-text: #ffffff;
+  --color-image-hint-background: rgba(8, 23, 38, 0.86);
+  --color-image-overlay-background: rgba(8, 23, 38, 0.72);
+  --color-media-ring: #ffffff;
+  --color-media-edge: var(--gray-100);
+  --color-media-focus-glow: rgba(1, 134, 86, 0.18);
+  --color-media-shadow: rgba(19, 38, 58, 0.13);
+  --shadow-small: 0 1px 2px var(--color-shadow);
+  /* Shadows are theme-scoped; the root layout always supplies data-theme. */
+  --shadow-medium:
+    0px 2px 4px -1px var(--color-shadow), 0px 4px 6px -1px var(--color-shadow);
+  --card-shadow:
+    inset 0 0 0 1px var(--color-border), 0 5px 16px var(--color-shadow-faint);
+  --card-shadow-hover:
+    inset 0 0 0 1px var(--color-border-accent),
+    0 5px 16px var(--color-shadow-faint-hover);
+  --media-frame-standard-shadow:
+    0 0 0 4px var(--color-media-ring), 0 0 0 5px var(--color-media-edge),
+    0 10px 28px rgba(19, 38, 58, 0.09);
+  --media-frame-standard-focus-shadow:
+    0 0 0 4px var(--color-media-ring), 0 0 0 5px var(--color-focus-outline),
+    0 0 0 9px var(--color-media-focus-glow), 0 10px 28px rgba(19, 38, 58, 0.09);
+  --media-frame-mobile-standard-shadow:
+    0 0 0 3px var(--color-media-ring), 0 0 0 4px var(--color-media-edge),
+    0 8px 20px rgba(19, 38, 58, 0.08);
+  --media-frame-mobile-standard-focus-shadow:
+    0 0 0 3px var(--color-media-ring), 0 0 0 4px var(--color-focus-outline),
+    0 0 0 8px var(--color-media-focus-glow), 0 8px 20px rgba(19, 38, 58, 0.08);
+  --media-frame-hero-shadow:
+    0 0 0 6px var(--color-media-ring), 0 0 0 7px var(--color-media-edge),
+    0 18px 48px var(--color-media-shadow);
+  --media-frame-hero-focus-shadow:
+    0 0 0 6px var(--color-media-ring), 0 0 0 7px var(--color-focus-outline),
+    0 0 0 11px var(--color-media-focus-glow),
+    0 18px 48px var(--color-media-shadow);
+  --media-frame-mobile-hero-shadow:
+    0 0 0 3px var(--color-media-ring), 0 0 0 4px var(--color-media-edge),
+    0 10px 26px rgba(19, 38, 58, 0.1);
+  --media-frame-mobile-hero-focus-shadow:
+    0 0 0 3px var(--color-media-ring), 0 0 0 4px var(--color-focus-outline),
+    0 0 0 8px var(--color-media-focus-glow), 0 10px 26px rgba(19, 38, 58, 0.1);
+
+  --focus-outline-offset: 2px;
+
+  background: var(--color-page);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  /* Canvas and surfaces */
+  --color-page: #13263a;
+  --color-nav-start: #0d4255;
+  --color-panel: #1f3247;
+  --color-panel-strong: #263e54;
+  --color-surface: #0b1c2d;
+  --color-surface-soft: #10263a;
+  --color-inline-code-background: var(--color-surface-soft);
+  --color-card-on-white: var(--color-surface);
+  --color-media-placeholder: #07131f;
+
+  /* Text */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #d2dff0;
+  --color-text-muted: #9fb2c4;
+
+  /* Form fields and interactive control edges */
+  --color-field-background: #152a3e;
+  --color-field-background-readonly: #12263a;
+  --color-field-background-disabled: #0d1b29;
+  --shadow-field:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025), 0 1px 2px rgba(0, 0, 0, 0.16);
+  --shadow-field-focus:
+    0 0 0 3px var(--color-focus-glow), inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  --color-field-text: #f3f7f4;
+  --color-field-value: #d2dff0;
+  --color-field-placeholder: #9fb2c4;
+  --color-field-disabled-text: #6f8498;
+  --color-control-border: #708aa2;
+  --color-control-border-hover: #829bb0;
+  --color-control-border-focus: #35ffb7;
+  --color-control-border-disabled: #4b6378;
+  --color-focus-outline: #35ffb7;
+  --color-focus-glow: rgba(53, 255, 183, 0.22);
+  --color-selection-background: rgba(0, 255, 164, 0.12);
+  --color-selection-border: #35ffb7;
+  --color-selection-text: #35ffb7;
+
+  /* Brand */
+  --color-brand: #00ffa4;
+  --color-brand-hover: #35ffb7;
+  --color-brand-active: #00de8f;
+  --color-brand-decorative: #00e795;
+  --color-brand-soft: rgba(0, 255, 164, 0.1);
+  --color-brand-soft-strong: rgba(0, 255, 164, 0.16);
+  --color-highlight-info: rgba(124, 122, 255, 0.3);
+  --color-prompt: #9fb2c4;
+  /* Preserve the softer legacy glow, intentionally distinct from dark brand. */
+  --color-brand-glow: rgb(43, 183, 124);
+
+  /* Edges */
+  --color-border: rgba(210, 223, 240, 0.16);
+  --color-border-accent: rgba(53, 255, 183, 0.58);
+  --color-divider: rgba(210, 223, 240, 0.12);
+  --color-divider-strong: rgba(210, 223, 240, 0.2);
+
+  /* Focus and elevation */
+  --color-shadow: rgba(0, 0, 0, 0.28);
+  --color-shadow-strong: rgba(0, 0, 0, 0.44);
+  --shadow-small: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* Shadows are theme-scoped; the root layout always supplies data-theme. */
+  --shadow-medium:
+    0px 2px 4px -1px rgba(0, 0, 0, 0.06), 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  /* Preserve pre-existing dark rendering for shared light-authored elevation. */
+  --color-shadow-faint: rgba(24, 42, 33, 0.045);
+  --color-shadow-faint-hover: rgba(24, 42, 33, 0.055);
+  --color-shadow-soft: rgba(24, 42, 33, 0.06);
+  --cta-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  --cta-shadow: var(--cta-inset-highlight), 0 3px 7px rgba(0, 0, 0, 0.32);
+  --cta-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 5px 12px rgba(0, 0, 0, 0.36);
+  --cta-shadow-active:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 1px 3px rgba(0, 0, 0, 0.34);
+  --cta-shadow-disabled: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --card-shadow:
+    inset 0 0 0 1px var(--color-border), 0 8px 24px rgba(0, 0, 0, 0.18);
+  --card-shadow-hover:
+    inset 0 0 0 1px var(--color-border-accent), 0 12px 28px rgba(0, 0, 0, 0.24);
+
+  /* Status and ratings */
+  --color-success: #00ffa4;
+  --color-warning: #d59a35;
+  --color-error: #e46969;
+  --color-rating-background: rgba(8, 23, 38, 0.78);
+  --color-rating-text: #d2dff0;
+  --color-rating-star: #e2aa3b;
+  --color-rating-border: rgba(210, 223, 240, 0.16);
+
+  /* Buttons */
+  --color-button-primary-background: var(--color-brand);
+  --color-button-primary-hover: var(--color-brand-hover);
+  --color-button-primary-active: var(--color-brand-active);
+  --color-button-primary-text: #082019;
+  --color-button-secondary-text: #ffffff;
+  --color-button-secondary-background: rgba(255, 255, 255, 0.04);
+  --color-button-secondary-hover: rgba(0, 255, 164, 0.08);
+  --color-button-tertiary-text: var(--color-text-primary);
+  --color-button-tertiary-hover: var(--color-brand-soft);
+  --color-button-tertiary-active: var(--color-brand-soft-strong);
+  /* Destructive actions read as red in both themes; theme-invariant. */
+  --color-button-destructive-text: #ffffff;
+  --color-button-destructive-background: var(--red-350);
+  --color-button-destructive-hover: var(--red-400);
+
+  /* Navigation */
+  --color-logo-knockout: var(--color-page);
+  --color-header-link: #ffffff;
+  --color-header-icon: #ffffff;
+  --color-header-overlay: #01070d;
+  --color-mobile-nav-text: #ffffff;
+  --color-mobile-nav-divider: rgba(210, 223, 240, 0.12);
+
+  /* Footer */
+  --color-footer-link: #d2dff0;
+  --color-footer-legal: #0b1c2d;
+  --color-social-icon: #9fb2c4;
+
+  /* Product demos */
+  --color-demo-chip: #1b4051;
+  --color-demo-chip-hover: #27566b;
+  --color-demo-chip-text: #ffffff;
+  --color-demo-chip-active-text: #082019;
+  --color-demo-chip-focus: var(--color-focus-outline);
+  --color-demo-placeholder: #07131f;
+  --color-code-background: #07131f;
+  /* Code blocks stay dark with white text in both themes; theme-invariant. */
+  --color-code-text: #ffffff;
+  --color-tooltip-background: rgba(23, 55, 42, 0.96);
+  --color-tooltip-text: #ffffff;
+  --color-image-hint-background: rgba(7, 19, 31, 0.9);
+  --color-image-overlay-background: rgba(1, 7, 13, 0.86);
+
+  /* Shared media frame */
+  --color-media-ring: #1f3247;
+  --color-media-edge: #405a4c;
+  --color-media-focus-glow: rgba(53, 255, 183, 0.28);
+  --color-media-shadow: rgba(0, 0, 0, 0.42);
+  --media-frame-standard-shadow:
+    0 0 0 4px var(--color-media-ring), 0 0 0 5px var(--color-media-edge),
+    0 10px 28px rgba(0, 0, 0, 0.34);
+  --media-frame-standard-focus-shadow:
+    0 0 0 4px var(--color-media-ring), 0 0 0 5px var(--color-focus-outline),
+    0 0 0 9px var(--color-media-focus-glow), 0 10px 28px rgba(0, 0, 0, 0.34);
+  --media-frame-mobile-standard-shadow:
+    0 0 0 3px var(--color-media-ring), 0 0 0 4px var(--color-media-edge),
+    0 8px 20px rgba(0, 0, 0, 0.3);
+  --media-frame-mobile-standard-focus-shadow:
+    0 0 0 3px var(--color-media-ring), 0 0 0 4px var(--color-focus-outline),
+    0 0 0 8px var(--color-media-focus-glow), 0 8px 20px rgba(0, 0, 0, 0.3);
+  --media-frame-hero-shadow:
+    0 0 0 6px var(--color-media-ring), 0 0 0 7px var(--color-media-edge),
+    0 18px 48px var(--color-media-shadow);
+  --media-frame-hero-focus-shadow:
+    0 0 0 6px var(--color-media-ring), 0 0 0 7px var(--color-focus-outline),
+    0 0 0 11px var(--color-media-focus-glow),
+    0 18px 48px var(--color-media-shadow);
+  --media-frame-mobile-hero-shadow:
+    0 0 0 3px var(--color-media-ring), 0 0 0 4px var(--color-media-edge),
+    0 10px 26px rgba(0, 0, 0, 0.34);
+  --media-frame-mobile-hero-focus-shadow:
+    0 0 0 3px var(--color-media-ring), 0 0 0 4px var(--color-focus-outline),
+    0 0 0 8px var(--color-media-focus-glow), 0 10px 26px rgba(0, 0, 0, 0.34);
+
+  color-scheme: dark;
+  background: var(--color-page);
+  --focus-outline-offset: 2px;
+}

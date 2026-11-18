@@ -1,0 +1,11 @@
+{
+  "answerRanges": [
+    {
+      "sheet": "Customers",
+      "range": "D2:E11",
+      "acceptedAliases": {
+        "San-Diego": ["San Diego"]
+      }
+    }
+  ]
+}

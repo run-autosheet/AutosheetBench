@@ -1,0 +1,1 @@
+How many days have passed since each inquiry date?

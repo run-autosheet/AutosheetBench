@@ -1,0 +1,11 @@
+{
+  "weights": {
+    "structure": 0.7,
+    "formatting": 0.3
+  },
+  "passThreshold": 1,
+  "criticalChecks": [
+    "structure",
+    "formatting"
+  ]
+}

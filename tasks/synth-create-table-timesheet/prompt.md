@@ -1,0 +1,1 @@
+Could you add a weekly timesheet to Sheet1 starting at A6? Keep the employee-project pairs in the same order as above, with columns for Mon-Fri and formula-driven totals.

@@ -1,0 +1,9 @@
+{
+  "weights": {
+    "pivots": 0.55,
+    "values": 0.35,
+    "structure": 0.1
+  },
+  "passThreshold": 1.0,
+  "criticalChecks": ["pivots", "values", "structure"]
+}

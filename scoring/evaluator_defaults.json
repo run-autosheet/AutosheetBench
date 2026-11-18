@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "evaluator-defaults/v1",
+  "minMatchRateProfiles": {
+    "longBulk": 0.98
+  }
+}

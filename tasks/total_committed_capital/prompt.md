@@ -1,0 +1,1 @@
+In the investors table, what's the total committed capital?

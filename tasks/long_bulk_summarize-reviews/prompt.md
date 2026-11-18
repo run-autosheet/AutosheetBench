@@ -1,0 +1,1 @@
+Summarize each review in a new column`summary` (col G). Should be a one-line summary of less 100 characters.

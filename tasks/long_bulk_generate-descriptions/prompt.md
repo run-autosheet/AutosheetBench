@@ -1,0 +1,1 @@
+Add a new column with the header `seo_description` in column K. Write an original description of at least 60 characters.

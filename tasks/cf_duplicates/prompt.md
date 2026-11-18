@@ -1,0 +1,1 @@
+Highlight duplicate email addresses.

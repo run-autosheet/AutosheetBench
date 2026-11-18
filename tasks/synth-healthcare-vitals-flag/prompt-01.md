@@ -1,0 +1,1 @@
+Flag any vitals outside normal range — heart rate should be 60-100, systolic BP 90-140, diastolic BP 60-90, temperature 97.0-99.5

@@ -1,0 +1,1 @@
+Fill the empty cells in the Discount column with 0, and leave the discounts that already have a value unchanged.

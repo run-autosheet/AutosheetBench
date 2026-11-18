@@ -1,0 +1,9 @@
+{
+  "answerRanges": [
+    {
+      "sheet": "Customers",
+      "range": "A1:P90",
+      "coerceNumericStrings": true
+    }
+  ]
+}

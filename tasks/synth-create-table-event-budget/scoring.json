@@ -1,0 +1,5 @@
+{
+  "weights": { "values": 1, "formulas": 1, "structure": 1 },
+  "passThreshold": 1,
+  "criticalChecks": ["values", "formulas", "structure"]
+}

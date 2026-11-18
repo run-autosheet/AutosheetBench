@@ -1,0 +1,1 @@
+The reviews in column D are written in several languages. Create a new col `english_review` in G with an English version. Rows already in English should stay the same.

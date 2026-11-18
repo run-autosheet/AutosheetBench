@@ -1,0 +1,9 @@
+{
+  "valueChecks": [],
+  "chartChecks": [
+    {
+      "sheet": "Sheet1",
+      "yAxisLogBase": 10
+    }
+  ]
+}

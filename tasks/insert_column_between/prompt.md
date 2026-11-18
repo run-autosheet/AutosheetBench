@@ -1,0 +1,1 @@
+Add an empty Profit column between revenue and cost.

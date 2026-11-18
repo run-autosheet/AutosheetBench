@@ -1,0 +1,9 @@
+{
+  "answerRanges": [
+    {
+      "sheet": "Sheet1",
+      "range": "A1:D11",
+      "coerceNumericStrings": true
+    }
+  ]
+}

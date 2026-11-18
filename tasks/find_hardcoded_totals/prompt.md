@@ -1,0 +1,1 @@
+In column D, which numbers are hardcoded rather than formulas?

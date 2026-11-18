@@ -1,0 +1,1 @@
+Now filter it to just North and East — those are our focus markets

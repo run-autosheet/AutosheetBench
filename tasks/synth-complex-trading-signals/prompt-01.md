@@ -1,0 +1,1 @@
+Calculate the 20-day simple moving average

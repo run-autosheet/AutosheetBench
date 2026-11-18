@@ -1,0 +1,1 @@
+Hide the revenue and amount columns.

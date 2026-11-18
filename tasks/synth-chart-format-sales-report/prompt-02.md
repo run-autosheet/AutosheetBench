@@ -1,0 +1,1 @@
+Make the spreadsheet look polished — proper currency formatting, bold headers, alternating row colors

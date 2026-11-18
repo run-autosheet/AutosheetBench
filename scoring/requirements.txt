@@ -1,0 +1,4 @@
+# Python 3.10 or later.
+openpyxl==3.1.5
+# Image checks (product images inserted into cells).
+Pillow==13.0.0

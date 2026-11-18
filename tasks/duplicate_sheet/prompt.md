@@ -1,0 +1,1 @@
+Duplicate the Models tab and call the copy Stan.

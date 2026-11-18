@@ -1,0 +1,1 @@
+Draft a friendly reply - of at least 40 characters - to each review in a new column with the header `reply` (in col G).

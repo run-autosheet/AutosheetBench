@@ -1,0 +1,1 @@
+Add average transaction size and transaction count to the same summary, using formulas for both.

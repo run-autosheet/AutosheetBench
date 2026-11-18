@@ -1,0 +1,1 @@
+Delete the blank rows in this table.

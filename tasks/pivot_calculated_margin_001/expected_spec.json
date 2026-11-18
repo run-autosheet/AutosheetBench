@@ -1,0 +1,8 @@
+{
+  "pivotChecks": [
+    {
+      "sheet": "Pivot",
+      "mustExist": true
+    }
+  ]
+}

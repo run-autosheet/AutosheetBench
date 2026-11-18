@@ -1,0 +1,1 @@
+The currency columns need proper formatting — and highlight anything negative in red

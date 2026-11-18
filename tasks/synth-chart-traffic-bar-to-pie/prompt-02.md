@@ -1,0 +1,1 @@
+Can you make it a pie chart instead? The bar chart is hard to read with this many sources

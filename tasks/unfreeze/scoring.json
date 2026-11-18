@@ -1,0 +1,9 @@
+{
+  "weights": {
+    "structure": 1
+  },
+  "passThreshold": 1,
+  "criticalChecks": [
+    "structure"
+  ]
+}

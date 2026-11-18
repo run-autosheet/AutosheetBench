@@ -1,0 +1,2551 @@
+/* The home page's language: Lexend headings at weight 700, centered section
+   headings, pill toggles, and surface cards with --card-shadow on the page
+   canvas.
+
+   Product colors for chart lines and markers (each with a lighter partner for
+   comparing two configurations of one product), metric bars and logo disks.
+   Light values first; the nested block is the dark theme.
+
+   Rules for the page's headings and lists start from .page: the layout's
+   `.main h1` to `h4` and `.main ul` match the same elements at the same
+   specificity (0,1,1), so without it the order of the stylesheets, which
+   can change from one build to the next, would pick the winner. */
+.page {
+  --benchmark-brand: #018656;
+  --benchmark-brand-alt: #54ad8d;
+  --benchmark-claude: #c5633f;
+  --benchmark-claude-alt: #e9a577;
+  --benchmark-chatgpt: #344453;
+  --benchmark-chatgpt-alt: #8798a5;
+  --benchmark-copilot: #7c3aed;
+  --benchmark-copilot-alt: #b798ee;
+  --benchmark-gemini: #3275d9;
+  --benchmark-gemini-alt: #8bb5f5;
+  --benchmark-other: #64748b;
+  --benchmark-other-alt: #a6b4c6;
+  --benchmark-bar-start: #20d49a;
+  --benchmark-bar-end: #018656;
+  /* The table's deepest tints, above and below its midpoint score; the
+     bright dark-theme green needs less. */
+  --benchmark-score-high: color-mix(
+    in srgb,
+    var(--benchmark-bar-start) 50%,
+    var(--color-surface)
+  );
+  --benchmark-score-low: color-mix(
+    in srgb,
+    var(--color-error) 32%,
+    var(--color-surface)
+  );
+  --benchmark-grid: #e4ebf2;
+  /* Logos keep a white disk in both themes, so dark marks stay readable. */
+  --benchmark-logo-disk: #ffffff;
+  --benchmark-logo-edge: #d1d5db;
+  /* The plus between two logos on a white pill, so dark in both themes. */
+  --benchmark-logo-ink: #3f546a;
+  /* The brand square needs no edge on light cards; on dark ones a faint
+     ring keeps its dark fill from merging with the card. */
+  --benchmark-brand-icon-edge: transparent;
+  --benchmark-mark-edge: transparent;
+  /* A task a product failed, beside the success green. */
+  --benchmark-miss: color-mix(in srgb, var(--color-error) 70%, #ffffff);
+  /* How much of its provider's color an appendix plan band takes. */
+  --benchmark-plan-tint: 10%;
+  /* Task categories, in category order: a categorical palette validated for
+     color vision deficiencies on each theme's card surface. Every color sits
+     beside its category's name. */
+  --benchmark-category-1: #2a78d6;
+  --benchmark-category-2: #eb6834;
+  --benchmark-category-3: #1baf7a;
+  --benchmark-category-4: #eda100;
+  --benchmark-category-5: #e87ba4;
+  --benchmark-category-6: #008300;
+  --benchmark-category-7: #6250d6;
+  --benchmark-category-8: #e34948;
+
+  :global(html[data-theme="dark"]) & {
+    --benchmark-brand: #00e795;
+    --benchmark-brand-alt: #8fe3c4;
+    --benchmark-claude: #ee9268;
+    --benchmark-claude-alt: #f6c6a2;
+    --benchmark-chatgpt: #c3d0db;
+    --benchmark-chatgpt-alt: #7d93a8;
+    --benchmark-copilot: #a98bf5;
+    --benchmark-copilot-alt: #d4c4fb;
+    --benchmark-gemini: #6ea2f0;
+    --benchmark-gemini-alt: #abc9f7;
+    --benchmark-other: #9fb2c4;
+    --benchmark-other-alt: #c8d4df;
+    --benchmark-bar-start: #35ffb7;
+    --benchmark-bar-end: #00b375;
+    --benchmark-score-high: color-mix(
+      in srgb,
+      var(--benchmark-bar-start) 30%,
+      var(--color-surface)
+    );
+    --benchmark-score-low: color-mix(
+      in srgb,
+      var(--color-error) 40%,
+      var(--color-surface)
+    );
+    --benchmark-grid: rgba(210, 223, 240, 0.1);
+    --benchmark-logo-disk: #ffffff;
+    --benchmark-logo-edge: rgba(210, 223, 240, 0.4);
+    --benchmark-logo-ink: #3f546a;
+    /* The brand square is as dark as the chart: a green ring sets it off. */
+    --benchmark-brand-icon-edge: var(--benchmark-brand);
+    /* The chart's watermark keeps a quiet edge: it isn't a data point. */
+    --benchmark-mark-edge: rgba(210, 223, 240, 0.45);
+    --benchmark-miss: color-mix(in srgb, var(--color-error) 75%, #0b1c2d);
+    --benchmark-plan-tint: 16%;
+    --benchmark-category-1: #3987e5;
+    --benchmark-category-2: #d95926;
+    --benchmark-category-3: #199e70;
+    --benchmark-category-4: #c98500;
+    --benchmark-category-5: #d55181;
+    --benchmark-category-6: #008300;
+    --benchmark-category-7: #9085e9;
+    --benchmark-category-8: #e66767;
+  }
+
+  background: var(--color-page);
+  color: var(--color-text-primary);
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+
+  /* Resets at the page class's specificity alone, so component classes
+     win. */
+  :where(a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :where(button) {
+    font: inherit;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: default;
+    opacity: 0.65;
+  }
+
+  :is(a, button, summary, [tabindex="0"]):focus-visible {
+    outline: 2px solid var(--color-focus-outline);
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  /* .inner lifts these above the layout's `.main h1` and `.main h2`, as
+     `.page &` lifts the headings and lists below. */
+  .inner :is(h1, h2, h3) {
+    font-family: "Lexend Deca", "Inter", sans-serif;
+    font-weight: 700;
+  }
+}
+
+/* The layout already sets the site's column, so the cards line up with the
+   header. */
+.inner {
+  max-width: 1296px;
+  margin: 0 auto;
+}
+
+/* A surface card, as the home page's feature and update cards. */
+.leaderboardPanel {
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow: var(--card-shadow);
+}
+
+.label {
+  font-weight: 600;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.empty {
+  padding: 40px;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  text-align: center;
+}
+
+/* Toggles: the home page's demo chips, with the brand fill when active. */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 40px;
+    background: var(--color-demo-chip);
+    color: var(--color-demo-chip-text);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.15;
+    white-space: nowrap;
+    transition: all 0.2s ease-in-out;
+  }
+
+  button:hover {
+    background: var(--color-demo-chip-hover);
+  }
+
+  button[aria-pressed="true"] {
+    background: var(--color-brand);
+    color: var(--color-demo-chip-active-text);
+  }
+}
+
+/* The page's toggles, a step smaller than the gallery's category chips. */
+.pills.chartPills button {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+/* In a chart header the three toggles sit beside the title, top right. */
+.pills.platformPills.chartPills {
+  padding: 2px;
+}
+
+/* Each toggle is one segmented control: its options share a track, so a
+   header of three toggles reads as three questions. */
+.pills.platformPills {
+  flex-wrap: nowrap;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--color-divider-strong);
+  border-radius: 40px;
+  background: var(--color-demo-chip);
+}
+
+/* The platform toggles switch at once: a fade passes the text and fill
+   colors through each other, so every copy on the page blinks blank. */
+.pills.platformPills button {
+  background: transparent;
+  transition: none;
+}
+
+.pills.platformPills button:hover {
+  background: var(--color-demo-chip-hover);
+}
+
+.pills.platformPills button[aria-pressed="true"] {
+  background: var(--color-brand);
+}
+
+/* The gallery's difficulty filter: each level beside its count. */
+
+/* Clear of a phone's pinned filter bar when a link jumps to a chart. */
+.leaderboardPanel[id] {
+  scroll-margin-top: 88px;
+}
+
+.chartControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px 12px;
+}
+
+/* A chart header's right side: its controls, and the benchmark's name
+   under them. */
+.chartAside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* A chart's share button, and the menu of its link, image and data under
+   it, on the right. */
+.chartTools {
+  position: relative;
+}
+
+.shareMenu {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 240px;
+  padding: 6px;
+  border: 1px solid var(--color-divider-strong);
+  border-radius: 12px;
+  background: var(--color-surface);
+  box-shadow: var(--card-shadow);
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: none;
+    border-radius: 8px;
+    background: none;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+
+    &:hover {
+      background: var(--color-brand-soft);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-focus-outline);
+      outline-offset: -2px;
+    }
+
+    svg {
+      flex: none;
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+/* The benchmark's name on a chart: the site header's lockup in a quiet
+   color, well above the legend's size so it never reads as one of its
+   names. */
+.chartBrand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-secondary);
+  font-family: "Lexend Deca", "Inter", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+
+  .brandIconEdge {
+    stroke: var(--benchmark-mark-edge);
+    stroke-width: 1px;
+  }
+}
+
+/* At the end of the score vs duration key, on its right. */
+.keyBrand {
+  margin-left: auto;
+}
+
+/* In head to head's top right corner, over the space the outputs leave. */
+
+/* A chart's copy laid out for its image, out of sight: square, without
+   its controls, and its scrolling parts at their full width. */
+.chartImage {
+  position: fixed;
+  top: 0;
+  left: -100000px;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  pointer-events: none;
+
+  [data-image="hide"] {
+    display: none;
+  }
+
+  [data-image="scroll"] {
+    overflow: visible;
+  }
+}
+
+/* The platform toggle and the product type after it, kept together. */
+.platformChoice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+
+/* Hero: the home page's heading on one line, kept short so the
+   leaderboard that follows starts within the first screen. */
+
+/* A count that links to its section: the label in the page's link color,
+   and the whole stat taking the click. */
+
+/* Sections */
+
+.section {
+  padding-top: 112px;
+  scroll-margin-top: 64px;
+}
+
+/* The gallery's lead, on two lines at full width. */
+
+/* A filter bar (filter-bar.jsx), which a phone folds into one line (see
+   the narrow screens' rules). Wider, its toggles sit in the row it's in. */
+
+/* The leaderboard's bar is a phone's alone: wider, each chart has its
+   toggles. */
+
+/* Overall score columns */
+
+.scoreColumnsIntro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 24px 24px 8px;
+
+  /* As wide as the title and its lead, so the toggles share their row
+     wherever they fit beside them. */
+  > div:first-child {
+    flex: 0 1 auto;
+  }
+
+  /* Dark like the other panels' headings, not the site's green h3. */
+  .page & h3 {
+    margin: 0 0 4px;
+    color: var(--color-text-primary);
+    font-size: 22px;
+    line-height: 130%;
+    letter-spacing: -0.4px;
+  }
+}
+
+.scoreColumnsScroll {
+  padding: 0 24px 24px;
+  overflow-x: auto;
+  scrollbar-color: var(--color-divider-strong) transparent;
+}
+
+/* The plot is --plot tall with headroom for the value and logos above a
+   full stem, under --bands of platform and product-type headers (36px a
+   row; the component drops the rows a single platform does not need); the
+   grid lines share the stems' scale. */
+.scoreColumns {
+  --plot: 320px;
+  --headroom: 56px;
+  --column: 68px;
+  /* As wide as the score vs duration chart's, whose gutter also holds its
+     vertical title, so the two axes stack. */
+  --axis: 56px;
+  --platform-gap: 24px;
+  --kind-gap: 24px;
+
+  position: relative;
+  min-width: calc(
+    var(--axis) + var(--columns) * var(--column) + 2 * var(--platform-gap) + 2 *
+      var(--kind-gap)
+  );
+  padding-left: var(--axis);
+}
+
+.scoreColumnBands,
+.scoreColumnKinds {
+  display: flex;
+  gap: var(--platform-gap);
+
+  > div {
+    flex: var(--span) 1 0;
+    min-width: 0;
+  }
+}
+
+.scoreColumnKinds {
+  flex: 1;
+  gap: var(--kind-gap);
+}
+
+/* Each platform is a column, so its panels stretch to the tallest one. */
+.scoreColumnBands > div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* With both platforms shown, each sits in its own neutral outlined panel;
+   inside it, the product-type headers and the gap between them split the
+   types. One platform needs no panel. */
+.scoreColumns:not(.isSinglePlatform) .scoreColumnBands > div {
+  box-sizing: border-box;
+  padding-bottom: 14px;
+  border: 1px solid var(--color-divider-strong);
+  border-radius: 12px;
+}
+
+.scoreColumnPlatform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-sizing: border-box;
+  height: 36px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* A product-type heading sits on a band as wide as its group's stretch of
+   axis, so each group reads as one without a line between them. */
+.scoreColumnKind {
+  overflow: hidden;
+  height: 24px;
+  margin: 6px 8px;
+  border-radius: 6px;
+  background: var(--color-surface-soft);
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Two classes, so the article list styles of the layout (counter markers,
+   indents, spacing between items) do not reach the columns. */
+.scoreColumns .scoreColumnsList {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--span), minmax(var(--column), 1fr));
+  margin: 0;
+  padding: 0;
+
+  > li {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Grouped, the gridlines and the axis break between groups: the shared
+   grid keeps only its labels, and each column draws its own stretch of
+   every line across its plot, so the stretches join within a group. The
+   first and last columns of a group stop 8px short, so the breaks read
+   clearly. */
+.plotGrid {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: calc(var(--plot) - var(--headroom));
+
+  > span {
+    position: absolute;
+    right: 0;
+    bottom: var(--at);
+    left: 0;
+    border-top: 1px solid var(--benchmark-grid);
+
+    &:first-child {
+      border-color: var(--color-divider-strong);
+    }
+  }
+}
+
+.scoreColumnsList > li:first-child .plotGrid {
+  left: 8px;
+}
+
+.scoreColumnsList > li:last-child .plotGrid {
+  right: 8px;
+}
+
+.scoreColumnsGrid {
+  position: absolute;
+  top: calc(var(--bands) + var(--headroom));
+  right: 0;
+  left: var(--axis);
+  height: calc(var(--plot) - var(--headroom));
+
+  > span {
+    position: absolute;
+    right: 0;
+    left: 0;
+
+    > span {
+      position: absolute;
+      right: 100%;
+      padding-right: 8px;
+      color: var(--color-text-muted);
+      font-family: var(--font-roboto-mono), monospace;
+      font-size: 12px;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+/* The headroom above a full stem holds its value and logos. */
+.scoreColumnPlot {
+  position: relative;
+  height: calc(var(--plot) - var(--headroom));
+  margin-top: var(--headroom);
+}
+
+.scoreColumnValue {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  color: var(--color-text-primary);
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.scoreColumnLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 4px 0;
+  font-size: 13px;
+  line-height: 130%;
+  text-align: center;
+  text-wrap: balance;
+
+  /* The assistant and its MCP weigh the same: both are the product. */
+  strong,
+  > span {
+    font-weight: 600;
+  }
+
+  /* The score, which a phone's rows give here. */
+  b {
+    display: none;
+  }
+
+  em {
+    margin-top: 4px;
+    padding: 2px 6px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    font-family: var(--font-roboto-mono), monospace;
+    font-size: 11px;
+    font-style: normal;
+    /* Wraps between words where every configuration narrows the columns. */
+    max-width: 100%;
+  }
+}
+
+/* A single logo stands on its own disk; an assistant and its MCP share a
+   pill, so the pair reads as one product. */
+.scoreColumnLogos {
+  display: flex;
+  align-items: center;
+}
+
+/* The pill takes the logo disk's colors, which stay light in dark mode, so
+   the bare assistant logo inside it stays readable. */
+.pairLogos {
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid var(--benchmark-logo-edge);
+  border-radius: 999px;
+  background: var(--benchmark-logo-disk);
+
+  /* Both logo boxes are 40px: the assistant's mark is 20px in it, the MCP
+     icon 25px. Negative margins trim each box to its mark, so the marks
+     sit 4px from the plus between them and 10px from the edge. */
+  > svg:first-child {
+    margin: -10px;
+  }
+
+  > svg:last-child {
+    margin: -7.5px;
+  }
+}
+
+/* The plus between an assistant and its MCP. */
+.pairPlus {
+  color: var(--benchmark-logo-ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* A branded pill takes the color at the top of its green column. */
+.brandLogos {
+  border-color: var(--benchmark-bar-end);
+}
+
+/* Each stem a hairline from the floor, the brand's in its gradient. */
+.scoreStem {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  height: var(--at);
+  background: var(--color-divider-strong);
+  transform: translateX(-50%);
+}
+
+.brandStem {
+  background: linear-gradient(
+    to bottom,
+    var(--benchmark-bar-end),
+    var(--benchmark-bar-start)
+  );
+}
+
+.scoreDot {
+  position: absolute;
+  bottom: var(--at);
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+/* Leaderboard */
+
+/* Clipped to its corners; `clip` rather than `hidden`, which would make
+   it a scroll container and stop the capability radar sticking. Unlike
+   `hidden`, `clip` lets a grid item grow to its content, so min-width
+   keeps each panel to the page's width, its wide charts scrolling inside. */
+.leaderboardPanel {
+  min-width: 0;
+  overflow: clip;
+}
+
+/* Titled as the charts, so the views read as one set. */
+.leaderboardCaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 24px 24px 12px;
+
+  /* An h3 under the leaderboard's h2, as the charts' titles: dark, and
+     specific enough to outrank the layout's green h3 in any order. */
+  > div > h3 {
+    margin: 0 0 4px;
+    color: var(--color-text-primary);
+    font-size: 22px;
+    line-height: 130%;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* The color key under the title: coral below the 90% midpoint, green
+   above, plain at it. */
+.scoreKey {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.scoreRamp {
+  width: 96px;
+  height: 10px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    var(--benchmark-score-low),
+    var(--color-surface),
+    var(--benchmark-score-high)
+  );
+  box-shadow: inset 0 0 0 1px var(--color-divider);
+}
+
+/* Wide tables scroll sideways in place; the page alone scrolls down. The
+   side margins keep the card's inset edge clear of the opaque cells. */
+.tableScroll {
+  margin: 0 1px;
+  padding: 0 0 20px;
+  overflow-x: auto;
+  isolation: isolate;
+  scrollbar-color: var(--color-divider-strong) transparent;
+  scrollbar-width: thin;
+
+  &:focus-visible {
+    outline-offset: -2px;
+  }
+}
+
+/* The names keep their width; the eight categories share what is left. */
+.integrationTable {
+  width: 100%;
+  min-width: 1100px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+
+  .methodCol {
+    width: 312px;
+  }
+
+  .overallCol {
+    width: 92px;
+  }
+
+  .durationCol {
+    width: 84px;
+  }
+
+  /* Labels sit on the rule, so a two-line label grows upward and the
+     one-line labels keep one baseline. */
+  thead th {
+    padding: 8px 4px 6px;
+    border-bottom: 1px solid var(--color-divider);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: center;
+    vertical-align: bottom;
+  }
+
+  thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    padding: 0 12px 10px 24px;
+    text-align: left;
+  }
+
+  /* Room at the table's right edge, outside the last column's tiles. */
+  thead th:last-child {
+    padding-right: 20px;
+  }
+
+  /* The wider right border takes a wider horizontal radius, so a tinted
+     tile keeps the corners of the others. */
+  .integrationResult td:last-child {
+    border-right-width: 20px;
+    border-radius: 8px 26px 26px 8px / 8px;
+  }
+
+  thead button {
+    display: block;
+    width: 100%;
+    padding: 4px 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    text-align: center;
+
+    > span {
+      position: relative;
+    }
+
+    svg {
+      position: absolute;
+      bottom: 0.2em;
+      left: calc(100% + 2px);
+    }
+  }
+
+  thead button:is(:hover, :focus-visible) .inactiveSort {
+    opacity: 1;
+  }
+
+  thead th.sortedColumn {
+    color: var(--color-brand);
+  }
+}
+
+.inactiveSort {
+  opacity: 0;
+}
+
+/* Group headings in the body font, set off by space, not rules. */
+.integrationGroup th {
+  padding: 20px 24px 6px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+
+  > span {
+    position: sticky;
+    left: 24px;
+  }
+}
+
+.integrationTable thead + tbody .integrationGroup th {
+  padding-top: 14px;
+}
+
+/* No rules between rows and no row hover: the tinted scores line the rows
+   up. */
+.integrationResult :is(td, th) {
+  background: var(--color-surface);
+}
+
+/* Without a group heading, the first row keeps clear of the header rule. */
+.integrationTable thead + tbody > .integrationResult:first-child > * {
+  border-top: 6px solid transparent;
+}
+
+.methodCell {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  padding: 8px 12px 8px 24px;
+  font-weight: 400;
+  text-align: left;
+}
+
+/* Once the table scrolls, the sticky names take an edge over the scores
+   sliding under them. */
+.tableScroll[data-scrolled] :is(thead th:first-child, .methodCell) {
+  box-shadow:
+    inset -1px 0 0 var(--color-divider),
+    8px 0 10px -8px var(--color-shadow);
+}
+
+.methodIdentity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+
+  > svg {
+    flex-shrink: 0;
+    overflow: visible;
+  }
+}
+
+.methodRank {
+  flex-shrink: 0;
+  width: 16px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.methodCopy {
+  display: block;
+  min-width: 0;
+
+  strong,
+  > span,
+  small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  strong {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  > span {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  small {
+    color: var(--color-text-muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+}
+
+/* Each cell a rounded tile as tall as its row, 4px from its neighbors: the
+   transparent border is the gap. */
+.metricCell {
+  padding: 0 8px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-clip: padding-box;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.overallCell {
+  color: var(--color-text-primary);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* The overall score and the duration stand a step apart from the eight
+   categories. */
+.durationCell {
+  border-right-width: 8px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.integrationResult .tintedCell {
+  background: color-mix(
+      in srgb,
+      var(--tint-color) var(--tint),
+      var(--color-surface)
+    )
+    padding-box;
+}
+
+/* Score vs duration */
+
+/* Top-aligned, so the title and the toggles share a top edge. */
+.scatterIntro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 24px 14px;
+
+  /* The three toggles need a row of their own beside a long title. */
+  > div:first-child {
+    flex: 1 1 420px;
+  }
+
+  /* Dark like the other panels' headings, not the site's green h3. */
+  .page & h3 {
+    margin: 0 0 4px;
+    color: var(--color-text-primary);
+    font-size: 22px;
+    line-height: 130%;
+    letter-spacing: -0.4px;
+  }
+}
+
+/* The plot's own gutters line its axes up with the overall score's. */
+.scatterScroll {
+  padding-bottom: 14px;
+  overflow-x: auto;
+}
+
+.scatterKey {
+  display: flex;
+  /* On a row of its own, it fills the row and keeps to the right. */
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.scatterVisual {
+  position: relative;
+  min-width: 700px;
+}
+
+/* The key, a row of its own under the title and the toggles, its names
+   set as the score chart's. */
+.scatterKeyItems {
+  display: flex;
+  flex: 1 0 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 600;
+
+  > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+/* The key's button, for a phone's folded key. */
+.keyToggle {
+  display: none;
+}
+
+.scatterPlot {
+  display: block;
+  width: 100%;
+}
+
+.scatterGrid {
+  stroke: var(--benchmark-grid);
+  stroke-width: 1;
+}
+
+/* The lowest score line, drawn as the overall score's baseline. */
+.scatterBaseline {
+  stroke: var(--color-divider-strong);
+}
+
+/* As the overall score's ticks. */
+.scatterTick {
+  fill: var(--color-text-muted);
+  font-family: var(--font-roboto-mono), monospace;
+  font-size: 12px;
+}
+
+/* In the key's type. */
+.scatterAxisLabel {
+  fill: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* The most attractive quadrant, and its swatch in the key. */
+.scatterQuadrant {
+  fill: var(--color-brand-soft-strong);
+}
+
+.scatterQuadrantEdge {
+  fill: none;
+  stroke: var(--color-brand);
+  stroke-dasharray: 4 3;
+  stroke-width: 1.5;
+}
+
+.quadrantKey {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 18px;
+  height: 14px;
+  margin-right: 2px;
+  border: 1.5px dashed var(--color-brand);
+  border-radius: 3px;
+  background: var(--color-brand-soft-strong);
+}
+
+.scatterGuide line {
+  stroke: var(--color-divider-strong);
+  stroke-dasharray: 3 4;
+}
+
+.scatterHalo {
+  fill: var(--color-surface);
+}
+
+.scatterPoint {
+  cursor: pointer;
+
+  /* Focus underlines the model label instead of drawing a ring. */
+  .page &:focus-visible {
+    outline: none;
+  }
+
+  > g {
+    pointer-events: none;
+  }
+}
+
+/* Set as the overall score's model names. */
+.scatterModelLabel {
+  fill: var(--color-text-secondary);
+  font-family: var(--font-roboto-mono), monospace;
+  font-size: 12px;
+  paint-order: stroke;
+  stroke: var(--color-surface);
+  stroke-linejoin: round;
+  stroke-width: 3px;
+
+  .scatterPoint:focus-visible &,
+  .isSelected & {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.scatterLabelLink {
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+}
+
+.labelOnHover:not(.isSelected, :focus-visible) .scatterLabelLink {
+  display: none;
+}
+
+/* A label with no room beside its icon appears only while its icon is
+   hovered or focused. */
+.labelOnHover:not(.isSelected, :focus-visible) .scatterModelLabel {
+  display: none;
+}
+
+/* The cost prototypes (cost-prototypes.jsx), drawn as score vs duration. */
+
+/* In the product's color where its line sets --cost-line. */
+
+/* The run's own tasks, as the scatter's guide. */
+
+/* E: a bar per product, its value at its end. */
+
+.scatterTooltip {
+  position: absolute;
+  z-index: 1;
+  width: 280px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow:
+    var(--card-shadow),
+    0 8px 28px var(--color-shadow-strong);
+  pointer-events: none;
+
+  small {
+    display: block;
+    margin-top: 6px;
+    color: var(--color-text-muted);
+    font-size: 13px;
+  }
+}
+
+.scatterTooltipMetrics {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+
+  strong {
+    color: var(--color-text-primary);
+    font-size: 17px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Product logos and configuration labels */
+
+.logoDisk {
+  fill: var(--benchmark-logo-disk);
+  stroke: var(--benchmark-logo-edge);
+  stroke-width: 1;
+}
+
+/* As the header logo: the brand square with 18% rounded corners. */
+.brandIcon {
+  clip-path: inset(0 round 18%);
+}
+
+.brandIconEdge {
+  fill: none;
+  stroke: var(--benchmark-brand-icon-edge);
+  stroke-width: 1.5px;
+  vector-effect: non-scaling-stroke;
+}
+
+/* The scatter's assistant + MCP pill, drawn like the overall score
+   chart's: the logo disk's colors, a green edge when Autosheet is in it. */
+.pairPill {
+  fill: var(--benchmark-logo-disk);
+  stroke: var(--benchmark-logo-edge);
+}
+
+.brandPill {
+  stroke: var(--benchmark-bar-end);
+}
+
+.pairPlusMark {
+  fill: var(--benchmark-logo-ink);
+  font-weight: 600;
+}
+
+.logoBadge {
+  fill: var(--benchmark-logo-disk);
+  stroke: var(--benchmark-logo-edge);
+}
+
+.logoInitial {
+  fill: var(--color-text-secondary);
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+}
+
+.configSlots {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  font-size: 14px;
+
+  > div {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    gap: 8px;
+  }
+
+  dt {
+    color: var(--color-text-muted);
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  small {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-weight: 400;
+  }
+}
+
+/* Head to head */
+
+.versus {
+  color: var(--color-text-muted);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* The name takes the room, so the side's line sits by the chevron. */
+
+/* A side's line as the radar draws it: its color, solid or dashed. */
+
+/* The search field, then the list that scrolls under it. */
+
+/* A kind of integration, over its configurations in the list. */
+
+/* The win summary beside the radar, as tall as it. */
+
+.radar {
+  display: block;
+  width: 100%;
+}
+
+.radarGrid {
+  fill: none;
+  stroke: var(--color-border);
+}
+
+/* As the other charts' ticks. */
+.radarTick {
+  fill: var(--color-text-muted);
+  font-family: var(--font-roboto-mono), monospace;
+  font-size: 12px;
+}
+
+.radarLabel {
+  fill: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.radarCount {
+  fill: var(--color-text-muted);
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.radarSeries {
+  polygon,
+  line {
+    fill: currentColor;
+    fill-opacity: 0.09;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  circle {
+    fill: currentColor;
+  }
+}
+
+.dashed :is(polygon, line) {
+  stroke-dasharray: 5 3;
+}
+
+.radarSeries {
+  transition: opacity 0.15s ease;
+}
+
+/* A capability's name that opens its tasks: the brand's color and an
+   underline on hover or focus. Only with a mouse, where the small labels
+   are easy to hit; on a touch screen they stay text. */
+.radarLabelLink {
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    fill: var(--color-brand);
+    text-decoration: underline;
+  }
+
+  @media (hover: none) {
+    pointer-events: none;
+  }
+}
+
+/* The shapes behind the one brought forward. */
+.radarDimmed {
+  opacity: 0.12;
+}
+
+/* Many shapes: outlines, the one brought forward alone filled. */
+.radar[data-outlined] .radarSeries:not(.radarFocused) polygon {
+  fill-opacity: 0;
+}
+
+/* The capability table's ranks view, drawn at the card's width and
+   scrolling sideways on narrow screens; its names keep their size. */
+.rankScroll {
+  padding: 0 0 20px;
+  overflow-x: auto;
+  scrollbar-color: var(--color-divider-strong) transparent;
+}
+
+.rankBox {
+  padding: 4px 24px 0;
+}
+
+.rankChart {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.rankCategory {
+  fill: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.rankGuide {
+  stroke: var(--benchmark-grid);
+  stroke-dasharray: 2 4;
+}
+
+.rankSeries,
+.rankKey {
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.rankLine {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.rankHit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 12;
+}
+
+/* Each place numbered with its rank in the text color, on a disk of the
+   card's color ringed in the line's: a number on the line's own color
+   would fall below text contrast on half the products' shades. */
+.rankNode {
+  circle {
+    fill: var(--color-surface);
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  text {
+    fill: var(--color-text-primary);
+    font-size: 11px;
+    font-weight: 700;
+    pointer-events: none;
+  }
+}
+
+.rankLabel {
+  fill: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.rankName {
+  fill: var(--color-text-primary);
+  font-weight: 600;
+}
+
+/* The lines and labels behind the one brought forward. */
+.rankDimmed {
+  opacity: 0.12;
+}
+
+/* The capability table's radar view: the radar beside its scores. */
+.capabilityRadar {
+  display: grid;
+  grid-template-columns: minmax(0, 480px) minmax(0, max-content);
+  align-items: center;
+  justify-content: center;
+  gap: 16px 32px;
+  padding: 8px 24px 24px;
+
+  /* Scores taller than the radar scroll past it, the radar staying in
+     view beside the row it brings forward. */
+  > svg {
+    position: sticky;
+    top: 72px;
+    align-self: start;
+  }
+}
+
+/* The radar's scores: a row per configuration, its name the radar's key,
+   and narrow columns of the table's tinted tiles under tilted headings.
+   Too many rows scroll past the radar; too narrow a screen scrolls the
+   columns, the names staying in view. */
+.radarScores {
+  --cell: 44px;
+
+  min-width: 0;
+  /* The last heading leans past the table, into the room this keeps. */
+  padding-right: 84px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+
+  table {
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  thead :is(th, td) {
+    padding: 0 0 6px;
+    border-bottom: 1px solid var(--color-divider);
+    background: var(--color-surface);
+    vertical-align: bottom;
+  }
+
+  thead th {
+    width: var(--cell);
+    min-width: var(--cell);
+    height: 104px;
+    color: var(--color-text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  thead th:nth-child(2) {
+    color: var(--color-text-primary);
+  }
+
+  /* Each heading tilted 45 degrees from its column's center. */
+  thead th > span {
+    display: block;
+    width: 0;
+    transform: translateX(calc(var(--cell) / 2)) rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+
+  thead td:first-child,
+  tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+  }
+
+  tbody th {
+    padding: 0 6px 0 0;
+    background: var(--color-surface);
+    font-weight: 400;
+    text-align: left;
+  }
+
+  tbody th button {
+    display: grid;
+    grid-template-columns: 22px 20px auto;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 3px 8px 3px 4px;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: var(--color-text-primary);
+    font-size: 12px;
+    line-height: 1.25;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+
+    > span {
+      display: flex;
+      flex-direction: column;
+    }
+
+    strong {
+      font-weight: 600;
+    }
+
+    > span > span {
+      color: var(--color-text-secondary);
+      font-size: 11px;
+    }
+  }
+
+  tbody th button:hover,
+  tbody th button:focus-visible,
+  tbody th button[aria-pressed="true"],
+  .radarScoresFocused th button {
+    background: var(--color-surface-soft);
+  }
+
+  /* The rows behind the one brought forward fade, as their shapes do. */
+  tbody tr {
+    transition: opacity 0.15s ease;
+  }
+
+  table[data-focused] tbody tr:not(.radarScoresFocused, .radarScoresGroups) {
+    opacity: 0.35;
+  }
+
+  .metricCell {
+    width: var(--cell);
+    min-width: var(--cell);
+    height: 30px;
+    padding: 0;
+    font-size: 12px;
+  }
+
+  .overallCell {
+    border-right-width: 6px;
+  }
+
+  tbody:first-of-type tr:first-child > * {
+    border-top: 4px solid transparent;
+  }
+}
+
+/* The groups' names over their rows, when there are several. */
+.radarScoresGroups th {
+  padding: 12px 8px 4px 4px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* The cost by capability (cost-radar.jsx), the capability scores' layout
+   with one wider column: the cost, over what a task costs. */
+
+/* The wins and ties, centered beside the radar past a divider, under a
+   heading that says they open the outputs. */
+
+/* Each side's wins as a row that opens the tasks it won, tinted with its
+   line's color; the ties sit between them and open theirs. */
+
+/* The tasks both passed or both failed, in neutral grey. */
+
+/* The head-to-head's own filters, under its heading. */
+
+/* The gallery's tasks under its cards, product by product, headed as the
+   charts are (.scoreColumnsIntro): the products' names, a stripe per task
+   in a column that scrolls sideways when it can't fit, then each row's
+   count. The three columns share the rows' height and gap, so they line
+   up. As wide as the cards, clear of their scrollbar. */
+
+/* The task under the pointer, beside the legend. */
+
+/* A stripe's color: passed, failed or not scored. */
+
+/* Prefixed to outweigh the layout's list margin and bullet. */
+
+.matrix {
+  display: grid;
+  margin-inline: var(--matrix-inset);
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr) max-content;
+  gap: 12px;
+  align-items: start;
+}
+
+/* Each task's column at least 3px wide, a gap apart; the hovered one
+   stands out as the others fade. */
+
+/* What to know about each assistant: the capability table's frame and
+   names, with a text column for each kind of note. */
+
+/* Latest updates: the home page's strip of hairline-separated entries, with
+   each post's share image beside its heading. */
+
+/* Spaced from the sections above as they are from each other; the
+   citation below closes the page. */
+.updates {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 112px;
+}
+
+/* The citation, last on the page, nearer the updates than a section,
+   and spaced from the footer: a panel with the reference in words beside
+   its BibTeX entry, set off on a tinted card. */
+
+/* The reference as a reader would write it: the title, then its authors
+   and date. */
+
+/* Tinted, so the entry stands apart from the white panel; scoped, as the
+   task panels' white is defined later. */
+
+/* A quiet button in the card's heading bar. */
+
+/* BibTeX's field names, a step back from their values. */
+
+/* Scoring: the three ways in one card, a row each, their example tasks
+   opening on a failing and a passing output. */
+
+/* The three principles, each a card with its text beside its example. */
+
+/* How the tasks were built: a card per step, titled and worded as the
+   scoring cards, a row of four that wraps on narrower screens. */
+
+/* The appendix: a card per lettered part, worded as the building cards,
+   one column wide so its tables and prompt read at length. */
+
+/* A wide table scrolls within its card on a phone. */
+
+/* The appendix's usage tables (usage-table.jsx): a configuration a row, by
+   its logo, and every figure a shaded tile, as the scores table draws
+   them. */
+
+/* The cost by category, as the capability scores set theirs out: the names,
+   then narrow columns under tilted headings. The last heading leans past
+   the table, into the room its wrapper keeps. */
+
+/* The cost, over what a task costs. */
+
+/* Setup: a card per plan or tool, as the cost cards draw them. The part's
+   own list rules would indent and space them. */
+
+/* The products' table: a tinted band per plan, then each product, its logo
+   and kind beside its configurations, a row each and ruled only between
+   products, so a model sits level with its reasoning. */
+
+/* A subpart's title inside a part. */
+
+/* A run's steps as a numbered row of chevrons, each one's point fitting
+   the next one's notch; a column on a phone, the chevrons pointing down.
+   The part's own list rules would indent and bullet them. */
+
+/* What a run keeps, a tile per kind: a preview of it, its name and a
+   caption. The previews share a height so the names line up. */
+
+/* A tile that opens what it previews: the recording plays, the transcript
+   and the screenshot open in full. */
+
+/* The mark, in its corner, of a tile that opens. */
+
+/* A play mark over the recording's frame. */
+
+/* A prompt folded under its name, with what to know to read it: the part
+   reads without the prompt's length. */
+
+/* A run's transcript in its dialog, laid out as the product's panel shows
+   the chat: the prompt in a bubble on the right, the steps folded under one
+   quiet line, then the answer. The part's own paragraph rule would space
+   them. */
+.transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  padding: 20px 18px 24px;
+  overflow-y: auto;
+  color: var(--color-text-primary);
+  font-size: 15px;
+  line-height: 1.55
+}
+
+/* The steps, under the line the panel names them by: its chevron follows
+   the text and turns down once open. */
+
+/* What a block of the transcript is: Thinking, Input, Result. */
+
+/* A cell link of the answer, as the panel's chip: its range and an arrow. */
+
+.scoringMethod {
+  .page & h3,
+  .page & h4 {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 22px;
+    line-height: 130%;
+    letter-spacing: -0.4px;
+  }
+
+  /* A way's name, titled as the page's other cards. */
+  .page & h4 {
+    font-family: "Inter", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 135%;
+    letter-spacing: -0.3px;
+  }
+
+  > div > p {
+    margin: 12px 0 0;
+    color: var(--color-text-secondary);
+    font-size: 15px;
+    line-height: 160%;
+  }
+
+  /* The one-liner that carries the paragraph. */
+  p strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+}
+
+/* An inline example: its prompt, then a failing and a passing output, each
+   boxed where it is decided, red on the failing one, green on the other. */
+
+/* As the output cards: a plain card whose top edge carries the verdict's
+   color. */
+
+/* Screenshots are light whatever the theme, so the frame is too. */
+
+/* The three ways of checking, one row each, its examples beside it. */
+
+/* The site's list bullet; the rows' dividers separate them here. */
+
+.scoringMethod {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 456px);
+  gap: 8px 40px;
+  padding: 24px 0;
+
+  & + & {
+    border-top: 1px solid var(--color-divider);
+  }
+}
+
+/* The quality example: the source, framed as the prompt, above the
+   summaries written from it, their texts at full size. */
+
+/* A principle's way of checking, linked to its row below. */
+
+.scoringLink {
+  display: inline-block;
+  /* Taller to the touch than to the eye: 25px, the layout unchanged. */
+  padding-block: 2px;
+  margin: 2px 0 -2px;
+  color: var(--color-brand);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* A method's two examples, as the gallery's cards side by side, flat on a
+   hairline in the panel and lifting on hover. */
+
+/* The scoring modal: one example, narrower than the task modal and as tall
+   as its content. */
+
+/* The head-to-head's tasks: its full height whatever the outcome shows,
+   so switching outcomes, or their outputs loading, never resizes it. */
+
+/* The tasks of one outcome, one per row, each with its prompt over the two
+   outputs; the outcomes seen before stay ready under the one shown. */
+
+/* An output's room while its task loads, about an output card's height, so
+   the rows under it don't move when it arrives. */
+
+/* A side of the comparison in the dialog's header: its logo, then its
+   product and model. */
+
+/* The toggle of outcomes, between the header and the tasks, which scroll
+   under it. */
+
+/* What tells the two outputs apart. */
+
+/* A prompt's code takes the page's monospace too, unboxed: the prompt is
+   the person's own text. */
+
+/* An input sheet as a compact spreadsheet grid. */
+
+/* As a spreadsheet's formula bar: the cell, then its formula. */
+
+/* Task gallery: category filters grouped as native and bulk, a wall of
+   tasks shown by their input's corner, and a modal with the task beside its
+   outputs. */
+
+/* A template's tint, from the categorical palette in rank order, the
+   greens last since changed cells are green, and a wrong cell's red. */
+.page {
+  --wrong-tint: color-mix(in srgb, var(--color-error) 22%, var(--color-surface));
+
+  [data-template] {
+    --template-tint: color-mix(
+      in srgb,
+      var(--template-color) 26%,
+      var(--color-surface)
+    );
+  }
+
+  [data-template="0"] {
+    --template-color: var(--benchmark-category-4);
+  }
+
+  [data-template="1"] {
+    --template-color: var(--benchmark-category-1);
+  }
+
+  [data-template="2"] {
+    --template-color: var(--benchmark-category-2);
+  }
+
+  [data-template="3"] {
+    --template-color: var(--benchmark-category-7);
+  }
+
+  [data-template="4"] {
+    --template-color: var(--benchmark-category-5);
+  }
+
+  [data-template="5"] {
+    --template-color: var(--benchmark-category-8);
+  }
+
+  [data-template="6"] {
+    --template-color: var(--benchmark-category-3);
+  }
+
+  [data-template="7"] {
+    --template-color: var(--benchmark-category-6);
+  }
+}
+
+/* An element tagged with a category takes its color, by its place in the
+   page's order; each keeps the color it had in the export's order. */
+.page {
+  [data-category="0"] {
+    --category-color: var(--benchmark-category-1);
+  }
+
+  [data-category="1"] {
+    --category-color: var(--benchmark-category-2);
+  }
+
+  [data-category="2"] {
+    --category-color: var(--benchmark-category-3);
+  }
+
+  [data-category="3"] {
+    --category-color: var(--benchmark-category-4);
+  }
+
+  [data-category="4"] {
+    --category-color: var(--benchmark-category-6);
+  }
+
+  [data-category="5"] {
+    --category-color: var(--benchmark-category-7);
+  }
+
+  [data-category="6"] {
+    --category-color: var(--benchmark-category-8);
+  }
+
+  [data-category="7"] {
+    --category-color: var(--benchmark-category-5);
+  }
+}
+
+/* A category's name on a tint of its color, after a dot of the color. */
+
+/* All beside two rows of chips, native above bulk, each after its label. */
+
+/* Three rows of tasks that scroll sideways, so the wall keeps the height of
+   three cards whatever the count. It spans the blocks above, edge to edge;
+   the padding leaves room for the shadows above and below. Its width sizes
+   the cards. */
+
+/* Cards the size of the selected examples' (.promptList): five to the
+   width, 12px apart, then 190px each on narrow screens. */
+
+/* The input's top left corner at a glance: too small to read, enough to
+   recognize a table, a list or a model. */
+
+/* The wall shows about 15 of its 187 cards: the others' grids, some 6,000
+   elements, skip layout and paint until they scroll near. Their fixed
+   height keeps the wall's rows as they are. */
+
+/* The expected result keeps a white backdrop in both themes, as the output
+   screenshots do. A chart or pivot fits whole; a sheet fills from its top
+   left. */
+
+/* The category's pill and the difficulty head the text, off the screenshot
+   so the thumbnail stays whole. */
+
+/* The visual sits inside the card's 1px inset ring, which it would
+   otherwise cover, so the card's edge reads the same all around. */
+
+/* A task's difficulty, at the category tag's size, in the text's gray so
+   it doesn't read as a score. */
+
+/* The task scrolls as one column: the prompt, then the starting sheet. */
+
+/* A tab's chart count, for the sheets that have charts. */
+
+/* A sheet with charts: the workbook's column widths and row heights, set on
+   the table, with the charts over the cells they cover and under the
+   sticky headings. */
+
+/* Outranks the modal's 27px rows (.taskInputSheet). A row grows to fit its
+   text, so each cell's text is held to the row's height (set per row). */
+
+/* Buttons that scroll the grid to each chart. */
+
+/* Under a task page's long output grid's last row: how many of its rows
+   show, and the button that loads the rest. It stays in view while the
+   grid scrolls sideways. */
+
+/* The prompt as the task's other panels frame it, its text the body. */
+
+/* Four lines of a prompt; the rest scrolls. */
+
+/* Rows are 27px tall, so the modal fits whole rows (see fitGrid). Until it
+   does, the header and ten rows show; the rest scroll. */
+
+/* The criteria, framed as the task's panels (.taskInput), under a heading
+   bar that carries the rule. */
+
+/* The quality rule opens to its criteria. */
+
+/* An output card holds a screenshot, a grid or an answer of one height,
+   that of an output preview (see .outputSheet). */
+
+/* The card's grid would otherwise grow to the sheet's width. */
+
+/* Every output preview is as tall, with or without a formula bar: the grid
+   or the answer takes the room left under the caption. Its caption keeps
+   to one line. */
+
+/* A chat answer, captioned like an output grid and as tall, its expected
+   answer highlighted. */
+
+/* Examples: five tasks open on the page, the task beside its outputs. */
+
+/* The task sets the panels' height, so it never scrolls; the outputs take
+   the same height and scroll inside it, whatever their number. */
+
+/* A short task still leaves the outputs a row and a half of cards. */
+
+/* An example's answers keep the column's width and scroll inside their cell,
+   to be read in full. */
+
+/* A task's own page (app/benchmark/tasks/[slug]): the dialog's header, then
+   its task and its outputs one under the other, at their own heights. */
+
+/* Other tasks of the category, then the tasks before and after this one. */
+
+/* The prompt shows whole; the starting sheets keep their scrolling grids. */
+
+/* The checks keep their height over the outputs, which scroll. */
+
+/* The page's toggles, kept to the outputs, in one row over them. */
+
+/* Each column sits in a tray with its heading, so the task and the outputs
+   read as two separate areas. */
+
+/* The tabs sit under an input's heading, on one line that scrolls. */
+
+/* Screenshots keep a white backdrop in both themes: they show spreadsheets
+   as captured, in their light theme. */
+
+/* Only this wrapper has a fixed height, so the cards keep their natural
+   height and overflowing results scroll instead of clipping. The padding
+   leaves room for the cards' shadows. */
+
+/* The outputs under a heading per result, failures first. */
+
+/* The result in words, with its mark, in the card's corner; the card's top
+   edge repeats its color, so a grid of outputs scans at a glance. */
+.verdict {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.pass {
+  color: var(--color-success);
+}
+
+.fail {
+  color: var(--color-error);
+}
+
+/* The card's outline is an inset shadow, which its image and failure note
+   would paint over; drawn again as a border on top, it runs the card's full
+   height. A status widens its top edge in its color, and the corners blend
+   the two widths along the curve. */
+
+/* A failed bulk output's sample rows, under its reason: the row, the
+   sentence that decides it, then what was written and why it fails. */
+
+/* A templated output's most used template, as one of its rows: the fixed
+   words stand out, the values filled in recede. */
+
+/* What was written, then what was expected or accepted, each on its own
+   tinted line behind a label, or under it in a narrow card. */
+
+/* The source's words that decide a row, and the written part that
+   contradicts them. */
+
+/* The written part that follows the source's words. */
+
+/* For a transcript: a column near the width of the panel it comes from,
+   not a picture's. */
+
+@media (max-width: 1050px) {
+
+  .scoringMethod,
+  .capabilityRadar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The radar above its scores: it no longer stays beside them. */
+  .capabilityRadar > svg {
+    position: static;
+  }
+
+  .verdict {
+    margin-left: 36px;
+  }
+}
+
+@media (max-width: 980px) {
+
+  /* Head to head's mark sits at the summary's top right: in a narrower
+     column, the summary, centered, would rise into it. */
+}
+
+@media (max-width: 760px) {
+  /* The examples stack, their list scrolling sideways, and the page
+     scrolls instead of the panels. */
+
+  /* Stacked, the task and the outputs run at their own heights. */
+
+  /* The task modal fills a phone, and its task and outputs scroll as one
+     column. The scoring and head-to-head modals, sized more specifically
+     above, fill it too. */
+
+  /* Rows of their content's height: the panels may shrink to fit the
+     desktop modal, but here the body scrolls instead. */
+
+  .verdict {
+    margin-left: 0;
+  }
+
+  /* No Enlarge label over the screenshots on narrow screens: it covered
+     them, and a reader zooms in instead. A tap still opens the image. */
+
+  .scatterIntro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 16px;
+
+    > div:first-child {
+      flex: none;
+    }
+  }
+
+  .scatterKey {
+    align-items: flex-start;
+  }
+
+  /* Its row's full width means nothing in a column, and an image of the
+     chart, which fixes the column's height, would read it as that height. */
+  .scatterKeyItems {
+    flex: none;
+  }
+}
+
+@media (max-width: 720px) {
+
+  /* A usage table's names take less of the phone's width and wrap. */
+
+  /* Each cost bar under its name and value. */
+
+  .inner {
+    padding-inline: 16px;
+  }
+
+  /* A set of toggles folds into a bar: what they show, and the toggles
+     behind its button. */
+
+  /* The leaderboard's toggles once, pinned while its charts scroll by. The
+     charts drop their own copies, and every chart its share and download
+     buttons. */
+
+  /* A task page's outputs keep their filter bar pinned too, as the
+     leaderboard does, while their cards scroll by. */
+
+  /* The count keeps to one line; the heading wraps beside it. */
+
+  .chartTools {
+    display: none;
+  }
+
+  /* The scatter's key folds behind a button, its points keeping their
+     logos, and the chart takes the screen's width, drawn at it. */
+  .keyToggle {
+    display: inline-flex;
+    /* Taller to the touch than to the eye: 25px, the layout unchanged. */
+    padding: 2px 0;
+    margin-block: -2px;
+    border: none;
+    background: none;
+    color: var(--color-brand);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .scatterKeyItems.isFolded > span {
+    display: none;
+  }
+
+  /* It holds only the toggles and buttons the filter bar replaces. */
+  .scatterKey {
+    display: none;
+  }
+
+  .scatterVisual {
+    min-width: 0;
+  }
+
+  /* The overall score as rows: each product's name, score and model, then
+     its stem running across from the floor to its logos. Platforms and
+     product types stack, each headed by its band; the scale's labels go,
+     every row giving its score. */
+  .scoreColumnsScroll {
+    padding: 0 16px 16px;
+  }
+
+  .scoreColumns {
+    min-width: 0;
+    padding-left: 0;
+  }
+
+  .scoreColumnsGrid {
+    display: none;
+  }
+
+  .scoreColumnBands,
+  .scoreColumnKinds {
+    flex-direction: column;
+    gap: 16px;
+
+    > div {
+      flex: none;
+    }
+  }
+
+  .scoreColumnKind {
+    margin: 0 0 8px;
+  }
+
+  .scoreColumns:not(.isSinglePlatform) .scoreColumnBands > div {
+    padding: 0 12px 12px;
+  }
+
+  .scoreColumns .scoreColumnsList {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+
+    > li {
+      display: grid;
+      grid-template-columns: 128px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+    }
+  }
+
+  .scoreColumnLabel {
+    display: block;
+    order: -1;
+    padding: 0;
+    font-size: 12px;
+    text-align: left;
+
+    /* The name reads as one phrase: "Autosheet in Sheets". */
+    strong::after {
+      content: " ";
+    }
+
+    br {
+      display: none;
+    }
+
+    /* The name's last part ends its line; the score and the model share
+       the next. */
+    > span::after {
+      content: "\A";
+      white-space: pre;
+    }
+
+    b {
+      display: inline-block;
+      margin: 4px 6px 0 0;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    em {
+      display: inline-block;
+      font-size: 10px;
+    }
+  }
+
+  .scoreColumnPlot {
+    height: 40px;
+    margin: 0 20px 0 0;
+  }
+
+  .plotGrid {
+    top: 0;
+    height: auto;
+
+    > span {
+      top: 0;
+      right: auto;
+      bottom: 0;
+      left: var(--at);
+      border-top: none;
+      border-left: 1px solid var(--benchmark-grid);
+    }
+  }
+
+  .scoreColumnsList > li:first-child .plotGrid,
+  .scoreColumnsList > li:last-child .plotGrid {
+    right: 0;
+    left: 0;
+  }
+
+  .scoreStem {
+    top: 50%;
+    bottom: auto;
+    left: 0;
+    width: var(--at);
+    height: 2px;
+    transform: translateY(-50%);
+  }
+
+  .brandStem {
+    background: linear-gradient(
+      to right,
+      var(--benchmark-bar-start),
+      var(--benchmark-bar-end)
+    );
+  }
+
+  .scoreDot {
+    top: 50%;
+    bottom: auto;
+    left: var(--at);
+    transform: translate(-50%, -50%);
+  }
+
+  .scoreColumnValue {
+    display: none;
+  }
+
+  .scoreColumnLogos {
+    zoom: 0.75;
+  }
+
+  /* The benchmark's mark stays for screenshots, small, and in a chart's
+     top right corner, beside its title rather than on a row of its own. */
+  .chartBrand {
+    gap: 4px;
+    font-size: 11px;
+    line-height: 16px;
+
+    svg {
+      width: 13px;
+      height: 13px;
+    }
+  }
+
+  /* Headed as the other panels are on a phone, so titles and marks line
+     up from one panel to the next. */
+  .scoreColumnsIntro {
+    padding: 18px 16px 8px;
+  }
+
+  .leaderboardPanel {
+    position: relative;
+
+    /* Centered on the title's first line: 18px down, then half the
+       difference between its 28.6px line and the mark's 16px. */
+    .chartBrand {
+      position: absolute;
+      top: 24.3px;
+      right: 16px;
+    }
+
+    /* A long title wraps clear of the mark. */
+    h3 {
+      padding-right: 102px;
+    }
+  }
+
+  /* Logos alone name the rows; the stripes scroll at 4px a task. */
+
+  .matrix {
+    gap: 8px;
+  }
+
+  .capabilityRadar {
+    padding-inline: 12px;
+  }
+
+  /* The names wrap in a narrower column, so a few scores show beside
+     them before the columns scroll. */
+  .radarScores tbody th button {
+    grid-template-columns: 14px 20px 92px;
+    gap: 6px;
+    font-size: 11px;
+    white-space: normal;
+
+    svg:first-child {
+      width: 14px;
+    }
+  }
+
+  /* The wall runs to the screen's edges, its first card on the gutter. */
+
+  /* All on its own line; each row of chips scrolls sideways instead of
+     stacking up. */
+
+  .section {
+    padding-top: 72px;
+  }
+
+  .pills button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .leaderboardCaption {
+    gap: 10px;
+    padding: 18px 16px 10px;
+  }
+
+  /* On phones the controls wrap under the title, flush left with it. */
+  .chartControls {
+    justify-content: flex-start;
+  }
+
+  .chartAside {
+    align-items: flex-start;
+  }
+
+  .integrationTable {
+    min-width: 960px;
+
+    .methodCol {
+      width: 184px;
+    }
+
+    .overallCol {
+      width: 84px;
+    }
+
+    .categoryCol {
+      width: 84px;
+    }
+
+    thead th:first-child {
+      padding-left: 16px;
+    }
+
+    thead th:last-child {
+      padding-right: 16px;
+    }
+
+    .integrationResult td:last-child {
+      border-right-width: 16px;
+      border-radius: 8px 22px 22px 8px / 8px;
+    }
+  }
+
+  /* Flush with the title. A phone's names column is narrow, so names wrap
+     instead of trailing off. */
+  .methodCell {
+    padding: 8px 8px 8px 16px;
+  }
+
+  .methodCopy > :is(strong, span) {
+    font-size: 13px;
+    white-space: normal;
+  }
+
+  /* The order already ranks the rows; the names need the room. */
+  .methodRank {
+    display: none;
+  }
+
+  .integrationGroup th {
+    padding-right: 16px;
+    padding-left: 16px;
+
+    > span {
+      left: 16px;
+    }
+  }
+
+  .updates {
+    padding-top: 72px;
+  }
+
+  /* Text only on phones: beside a share image, the teaser would wrap to a
+     narrow column. A lazy image in a hidden box is never fetched. */
+
+  .methodIdentity {
+    gap: 6px;
+  }
+
+  .versus {
+    display: none;
+  }
+
+  /* Over the radar it would cover a label: a row of its own instead. */
+}
+
+@media (max-width: 480px) {
+  /* One output card to a row. */
+
+  /* Alone on its row, a screenshot takes its own height, up to 420px,
+     rather than a fixed one that leaves a wide capture in white space.
+     Two to a row, wider phones keep the fixed height, so neighbours line
+     up. */
+
+  /* The tasks before and after stack, each across the page. */
+}

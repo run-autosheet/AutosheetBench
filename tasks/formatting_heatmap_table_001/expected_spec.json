@@ -1,0 +1,9 @@
+{
+  "conditionalFormattingChecks": [
+    {
+      "sheet": "Data",
+      "range": "B2:G5",
+      "type": "colorScale"
+    }
+  ]
+}

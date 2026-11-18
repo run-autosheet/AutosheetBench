@@ -1,0 +1,1 @@
+Also add data validation to the Amount column so only positive numbers are allowed

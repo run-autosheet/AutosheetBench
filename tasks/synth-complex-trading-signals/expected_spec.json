@@ -1,0 +1,9 @@
+{
+  "answerRanges": [
+    {
+      "sheet": "Sheet1",
+      "range": "H2:J101",
+      "tolerance": 0.001
+    }
+  ]
+}

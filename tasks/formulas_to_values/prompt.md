@@ -1,0 +1,1 @@
+Convert the formulas in the Total column to their static values.

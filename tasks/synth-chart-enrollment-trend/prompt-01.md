@@ -1,0 +1,1 @@
+Chart the overall enrollment trend over time

@@ -1,0 +1,1 @@
+Add an overall alert column — Critical if 2+ flags, Warning if 1 flag, Normal if none

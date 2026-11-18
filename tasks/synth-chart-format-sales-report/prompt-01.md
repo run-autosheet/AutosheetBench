@@ -1,0 +1,1 @@
+Create a chart showing monthly revenue trends

@@ -1,0 +1,1 @@
+Remove the currency (EUR) from the amount column to only have numeric values.

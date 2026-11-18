@@ -1,0 +1,1 @@
+Add a gap formula showing how many people we need to hire or can let go

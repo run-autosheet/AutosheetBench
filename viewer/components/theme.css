@@ -1,0 +1,176 @@
+/*
+ * Dark theme overrides for SpreadsheetBench / Codegen / Bulk benchmark
+ * pages so they visually match the standalone eval UI (eval/ui.html).
+ * Logic and structure of BenchmarkRunner / BulkBenchmarkRunner stay intact;
+ * this file only restyles the existing Tailwind utility classes when they
+ * appear inside a `.eval-themed` wrapper.
+ */
+
+.eval-themed {
+  --eb-bg: #0d1117;
+  --eb-bg2: #161b22;
+  --eb-bg3: #21262d;
+  --eb-border: #30363d;
+  --eb-text: #e6edf3;
+  --eb-text2: #8b949e;
+  --eb-green: #3fb950;
+  --eb-red: #f85149;
+  --eb-blue: #58a6ff;
+  --eb-yellow: #d29922;
+  --eb-purple: #bc8cff;
+  --eb-orange: #f0883e;
+  --eb-mono: "SF Mono", "Fira Code", monospace;
+
+  background: var(--eb-bg);
+  color: var(--eb-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Inner padding for the runner content (not applied to the eval iframe) */
+
+.eval-themed h1,
+.eval-themed h2,
+.eval-themed h3,
+.eval-themed h4 {
+  color: var(--eb-text);
+}
+
+.eval-themed a { color: var(--eb-blue); }
+
+/* ── Backgrounds ─────────────────────────────────────────────────── */
+.eval-themed .bg-blue-600 { background-color: #1f6feb !important; color: #fff !important; }
+.eval-themed .hover\:bg-blue-700:hover { background-color: #388bfd !important; }
+
+.eval-themed .hover\:bg-gray-50:hover { background-color: var(--eb-bg3) !important; }
+
+/* ── Foregrounds ─────────────────────────────────────────────────── */
+.eval-themed .text-gray-400 { color: var(--eb-text2) !important; }
+
+/* ── Borders ─────────────────────────────────────────────────────── */
+/* Tailwind's preflight sets the default border color (used by bare `border`
+   / `border-b` etc. without an explicit color) to gray-200, which renders
+   near-white on the dark background. Re-tint the default for all descendants;
+   any utility class with an explicit color (e.g. .border-blue-500) keeps
+   winning by class specificity. */
+.eval-themed,
+.eval-themed *,
+.eval-themed *::before,
+.eval-themed *::after { border-color: var(--eb-border); }
+
+.eval-themed [class*="divide-"] > * + * { border-color: var(--eb-border) !important; }
+
+/* Directional / emphasis border-color utilities (e.g. the leaderboard table's
+   `border-r-gray-200`, `border-l-slate-300`, `border-r-black`) aren't caught by
+   the all-sides `.border-gray-*` rules above, so they rendered as bright (gray /
+   slate) or invisible (black) lines on the dark background. Tint them to the
+   theme border color so every table separator is consistent. */
+.eval-themed [class*="border-l-gray-"],
+.eval-themed [class*="border-r-gray-"],
+.eval-themed [class*="border-t-gray-"],
+.eval-themed [class*="border-b-gray-"],
+.eval-themed [class*="border-l-slate-"],
+.eval-themed [class*="border-r-slate-"],
+.eval-themed [class*="border-t-slate-"],
+.eval-themed [class*="border-b-slate-"],
+.eval-themed [class*="border-l-black"],
+.eval-themed [class*="border-r-black"],
+.eval-themed [class*="border-t-black"],
+.eval-themed [class*="border-b-black"] { border-color: var(--eb-border) !important; }
+
+/* ── Form controls ───────────────────────────────────────────────── */
+.eval-themed input[type="text"],
+.eval-themed input[type="number"],
+.eval-themed input[type="search"],
+.eval-themed input:not([type]),
+.eval-themed select,
+.eval-themed textarea {
+  background-color: var(--eb-bg) !important;
+  color: var(--eb-text) !important;
+  border-color: var(--eb-border) !important;
+}
+.eval-themed input::placeholder,
+.eval-themed textarea::placeholder { color: var(--eb-text2) !important; }
+.eval-themed input:focus,
+.eval-themed select:focus,
+.eval-themed textarea:focus { outline-color: var(--eb-blue) !important; }
+
+.eval-themed option { background-color: var(--eb-bg2); color: var(--eb-text); }
+
+/* Buttons keep their existing background overrides above; tweak default appearance */
+.eval-themed button:not([class*="bg-"]) {
+  color: var(--eb-text);
+}
+
+/* Disabled buttons in dark theme need a softer feel */
+.eval-themed button:disabled { opacity: 0.45; }
+
+/* Tailwind v3+ no longer applies cursor: pointer to bare buttons. Restore
+   the affordance for any enabled interactive control inside our themed
+   pages, and explicitly show "not-allowed" when an element is disabled. */
+.eval-themed button:not(:disabled),
+.eval-themed [role="button"]:not([aria-disabled="true"]),
+.eval-themed [role="radio"]:not(:disabled),
+.eval-themed summary { cursor: pointer; }
+.eval-themed button:disabled,
+.eval-themed [role="button"][aria-disabled="true"],
+.eval-themed [role="radio"]:disabled { cursor: not-allowed; }
+
+/* ── Tables ──────────────────────────────────────────────────────── */
+.eval-themed table { color: var(--eb-text); }
+.eval-themed thead th { color: var(--eb-text2) !important; }
+.eval-themed tbody tr:hover td { background-color: rgba(88, 166, 255, 0.06); }
+
+/* ── Code / pre ──────────────────────────────────────────────────── */
+.eval-themed pre,
+.eval-themed code {
+  font-family: var(--eb-mono);
+}
+.eval-themed details > summary { color: var(--eb-blue); }
+
+/* ── Shadows feel out of place on the dark background ───────────── */
+
+/* ── Disabled / muted elements ───────────────────────────────────── */
+.eval-themed .disabled\:text-gray-400:disabled { color: var(--eb-text2) !important; }
+.eval-themed .placeholder\:text-gray-400::placeholder { color: var(--eb-text2) !important; }
+
+/* ── Eval-style header above the runner ──────────────────────────── */
+
+/* ── Compare page — SVG charts (editorial) ───────────────────────── */
+/* SVG cards render their own title inside the SVG (so PNG/SVG exports
+ * carry it). Use a card variant with no padding so the SVG owns the
+ * canvas, and float the export buttons over the top-right corner. */
+
+/* Family legend ─ chip strip rendered above the charts */
+
+/* Scope toolbar above the compare charts: Benchmark + Platform pill groups. */
+
+/* Toolbar above the charts: legend on the left, orientation toggle on the right. */
+.eval-themed .compare-orientation-btn {
+  font-size: 11.5px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.02em;
+  padding: 6px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--eb-text2);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.eval-themed .compare-orientation-btn:hover { color: var(--eb-text); }
+.eval-themed .compare-orientation-btn[disabled] { cursor: default; opacity: 0.9; }
+
+/* Multi-select model picker. The trigger reuses the orientation-button
+ * chrome; the popover is a self-contained dialog anchored below it. */
+
+/* Insights cards use shared styles from ./insights.css (imported by Compare.js). */
+
+/* Spinner used while loading */
+@keyframes eval-themed-spin { to { transform: rotate(360deg); } }
+
+/* Per-task drilldown table under the compare charts */
+
+/* Coverage matrix at the top of the drilldown */

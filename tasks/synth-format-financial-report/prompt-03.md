@@ -1,0 +1,1 @@
+Add borders around the whole table and freeze the header row

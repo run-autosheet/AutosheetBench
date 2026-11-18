@@ -1,0 +1,1 @@
+The columns are cut off — fit them to the text.

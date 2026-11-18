@@ -1,0 +1,1 @@
+Write a formula that looks up each student's letter grade from the grading scale sheet

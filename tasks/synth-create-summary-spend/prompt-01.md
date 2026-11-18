@@ -1,0 +1,1 @@
+Add a department spend summary to Sheet1 starting at H1. Use one header row, list the departments alphabetically, and calculate total spend with formulas.

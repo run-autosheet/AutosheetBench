@@ -1,0 +1,1 @@
+Clear everything in row 9.

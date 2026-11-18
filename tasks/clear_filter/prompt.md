@@ -1,0 +1,1 @@
+Remove the filter and show everything again.

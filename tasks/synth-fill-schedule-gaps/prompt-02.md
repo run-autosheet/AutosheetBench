@@ -1,0 +1,1 @@
+Add the duration in hours — morning slots are 2 hours, afternoon slots are 3 hours
