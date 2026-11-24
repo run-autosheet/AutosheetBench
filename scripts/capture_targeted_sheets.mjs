@@ -20,13 +20,13 @@ function captureIdentityUrl(value) {
 
 // Load native image libraries only when processing pixels. Awaited browser
 // runtimes can provide a local subprocess processor without importing Sharp.
-export async function processTargetScreenshotWithNode(bytes, options) {
+export async function processTargetScreenshotWithNode(bytes, options, {nodePath = 'node'} = {}) {
   const directory=fs.mkdtempSync(path.join(os.tmpdir(),'asb-target-pixels-'));
   try {
     const input=path.join(directory,'source'),output=path.join(directory,'crop.png');
     fs.writeFileSync(input,bytes);
     const script=fileURLToPath(new URL('./process_target_screenshot.mjs',import.meta.url));
-    const {stdout}=await promisify(execFile)('node',[script,input,output,JSON.stringify(options)],{maxBuffer:1024*1024});
+    const {stdout}=await promisify(execFile)(nodePath,[script,input,output,JSON.stringify(options)],{maxBuffer:1024*1024});
     return {...JSON.parse(stdout),cropped:fs.readFileSync(output)};
   } finally {fs.rmSync(directory,{recursive:true,force:true});}
 }

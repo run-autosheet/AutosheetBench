@@ -111,7 +111,11 @@ export function expectedImages(spec) {
 
 export function configurationKey(c) {
   const connector=c.connector||null,p=`${c.product} ${c.label}`.toLowerCase();
-  const productKey=/claude/.test(p)?'claude':/chatgpt/.test(p)?'chatgpt':/copilot/.test(p)?'copilot':/gemini/.test(p)?'gemini':c.platform==='google_sheets'?'gpt-for-sheets':'gpt-for-excel';
+  // The label carries the model's name, so Autosheet with a Gemini model is
+  // recognized as Autosheet before the name Gemini picks Gemini in Sheets.
+  const autosheet=/autosheet in (excel|sheets)|gpt for (excel|sheets|work)/.test(p);
+  const productKey=/claude/.test(p)?'claude':/chatgpt/.test(p)?'chatgpt':/copilot/.test(p)?'copilot':
+    !autosheet&&/gemini/.test(p)?'gemini':c.platform==='google_sheets'?'gpt-for-sheets':'gpt-for-excel';
   const normalize=value=>String(value||'').toLowerCase().replace(/[^a-z0-9]/g,'');
   const model=productKey==='gemini'&&/not exposed/i.test(c.model)?'Auto':c.model?.split(' + ')[0];
   const reasoning=/not exposed/i.test(c.reasoning)?'Auto':String(c.reasoning).replace(/ thinking on$/i,' thinking');
