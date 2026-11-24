@@ -1658,6 +1658,13 @@ function findClaudeModelTrigger(pane) {
   });
 }
 
+function findChatgptModelTrigger(pane) {
+  return findFirstReverseLimitedLight(pane, 220, (el, role) => {
+    if (role !== 'AXButton' && role !== 'AXPopUpButton') return false;
+    return /model and thinking effort:/i.test(getDescription(el) || getTitle(el));
+  });
+}
+
 function findClaudePopupChoice(trigger, expectedModel) {
   if (!trigger) return null;
   const token = configToken(expectedModel);
@@ -1757,6 +1764,26 @@ function ensureExpectedConfiguration(pane, opts, Excel, SE) {
         actions.push('selected model ' + expectedModel);
         delay(0.3);
         scan = scanConfigurationPane(pane);
+      }
+    }
+  }
+  if (ACTIVE_PRODUCT === 'chatgpt' && scan.model && expectedModel &&
+      configToken(scan.model) !== configToken(expectedModel)) {
+    const trigger = findChatgptModelTrigger(pane);
+    if (pressAxControl(trigger, Excel, SE)) {
+      actions.push('opened model and thinking effort selector');
+      delay(0.2);
+      let choice = findExactConfigControl(pane, expectedModel, false);
+      if (!choice && trigger) {
+        let menus = [];
+        try { menus = trigger.menus(); } catch (e) {}
+        for (let i = 0; menus && i < menus.length && !choice; i++) {
+          choice = findExactConfigControl(menus[i], expectedModel, false);
+        }
+      }
+      if (pressAxControl(choice, Excel, SE)) {
+        actions.push('selected model ' + expectedModel);
+        delay(0.3);
       }
     }
   }

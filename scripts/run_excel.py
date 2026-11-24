@@ -180,10 +180,20 @@ class PublicRecordingRunner:
         result = self.original["osascript_op"](command, *args, **kwargs)
         if command == "transcript" and kwargs.get("product") == "claude" and result.get("source") == "copy-control":
             result = {**result, "source": "claude-copy-message"}
-        observation = {"operation": command, "recordedAtEpochMs": time.time() * 1000,
+        recorded_at = time.time() * 1000
+        observed_at = result.get("observedAtEpochMs")
+        # Some ChatGPT pane checks return a terminal state without a native
+        # observation timestamp. The check's return time is a video-review
+        # candidate; the final endpoint still has to be verified on the MP4.
+        if command == "check" and not number(observed_at):
+            observed_at = recorded_at
+        observation = {"operation": command, "recordedAtEpochMs": recorded_at,
                        **{key: result.get(key) for key in (
-                           "status", "state", "submittedAtEpochMs", "observedAtEpochMs",
+                           "status", "state", "submittedAtEpochMs",
                            "finalAnswerDetected", "finalAnswerCount", "activeInputRequestCount")}}
+        observation["observedAtEpochMs"] = observed_at
+        observation["observationTimeSource"] = (
+            "product" if number(result.get("observedAtEpochMs")) else "check-return") if command == "check" else None
         observation["permissionPending"] = bool((result.get("permission") or {}).get("button"))
         if command == "check":
             self.checks.append(observation)
@@ -228,7 +238,8 @@ class PublicRecordingRunner:
                 suffix.append(observation)
             if suffix:
                 endpoint = suffix[-1]["observedAtEpochMs"]
-                source = "confirmed-terminal-suffix-candidate"
+                source = ("confirmed-terminal-suffix-candidate" if suffix[-1]["observationTimeSource"] == "product"
+                          else "confirmed-check-return-candidate")
         turn = {**result, "submittedAtEpochMs": submitted,
                 "timingEndpointEpochMs": endpoint, "timingEndpointSource": source}
         if number(submitted) and number(endpoint) and endpoint >= submitted:
