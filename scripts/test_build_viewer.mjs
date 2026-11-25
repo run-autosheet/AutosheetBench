@@ -188,6 +188,9 @@ test('recording loader accepts only reviewed, frozen, content-addressed derivati
   row.durationSeconds=2.250002;write();assert.throws(()=>readReviewedRecordings({bundle:root,data,resultsHash:'snapshot-hash'}),/required derivative review/);
   row.durationSeconds=2.25;row.review.viewingTailPadding=padding;
   for(const bad of [{...padding,extraPlaybackSeconds:3},{...padding,benchmarkTimingChanged:true},{...padding,allFrameTimestampsPreserved:false},{...padding,sourceFinalFrameSeconds:1},{...padding,viewingEffectiveEndSeconds:2.2}]){row.review.viewingTailPadding=bad;write();assert.throws(()=>readReviewedRecordings({bundle:root,data,resultsHash:'snapshot-hash'}),/required derivative review/);}
+  const finalFrame={schemaVersion:'autosheetbench-viewing-tail-padding/v1',sourceEffectiveEndSeconds:1.75,sourceFinalFrameSeconds:1.75,viewingEffectiveEndSeconds:2.25,extraPlaybackSeconds:.5,sourceEndsAtFinalFrame:true,allFrameTimestampsPreserved:true,benchmarkTimingChanged:false};
+  row.review.viewingTailPadding=finalFrame;write();assert.equal(readReviewedRecordings({bundle:root,data,resultsHash:'snapshot-hash'}).counts.included,1);
+  for(const bad of [{...finalFrame,sourceFinalFrameSeconds:2},{...finalFrame,extraPlaybackSeconds:3,viewingEffectiveEndSeconds:4.75},{...finalFrame,sourceEndsAtFinalFrame:false}]){row.review.viewingTailPadding=bad;write();assert.throws(()=>readReviewedRecordings({bundle:root,data,resultsHash:'snapshot-hash'}),/required derivative review/);}
   row.review.viewingTailPadding=padding;row.timing.frameCountIdentical=false;write();assert.throws(()=>readReviewedRecordings({bundle:root,data,resultsHash:'snapshot-hash'}),/required derivative review/);
   delete row.review.viewingTailPadding;delete row.durationSeconds;Object.assign(row.timing,{frameCountIdentical:true,effectiveEndTimeIdentical:true});write();
 
